@@ -1,3 +1,5 @@
+import Link from 'next/link'
+ 
 async function getTest(){
   const response = await fetch('https://6594fef604335332df81c57a.mockapi.io/test/User')
 
@@ -7,15 +9,22 @@ async function getTest(){
 
   return response.json()
 }
-export default async function Home() {
 
-  const User = await getTest()
-  console.log('User', User)
-  return (
-    <>
-    <div>
-      <p> Hello SAM</p>
-    </div>
-    </>
-  )
+  export default async function Page() {
+    const User = await getTest()
+    return (
+      <div>
+        User List : 
+        {
+          User.map((User, index) =>
+            <div key={index}>
+              {User.id} {User.name}
+              <Link href={`/User/${User.id}`}>
+                Go to read User
+              </Link>
+            </div>
+          )
+        }
+      </div>
+    )
 }
